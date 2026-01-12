@@ -15,11 +15,13 @@ export default function App() {
   // Derived states based on currentTime (0-60s)
   const currentScene: SceneType =
     currentTime < 8 ? SceneType.Framing :
-      currentTime < 18 ? SceneType.Dataset :
-        currentTime < 26.5 ? SceneType.Step1 :
-          currentTime < 34 ? SceneType.Step2 :
-            currentTime < 42 ? SceneType.Evaluation :
-              SceneType.Summary;
+      currentTime < 14 ? SceneType.Dataset :
+        currentTime < 22.5 ? SceneType.Step1 :
+          currentTime < 30 ? SceneType.Step2 :
+            currentTime < 38 ? SceneType.Evaluation :
+              currentTime < 44 ? SceneType.ValidationStep1 :
+                currentTime < 50 ? SceneType.ValidationStep2 :
+                  SceneType.Summary;
 
   useEffect(() => {
     if (isPlaying) {
@@ -27,8 +29,8 @@ export default function App() {
       const startTime = performance.now() - (currentTime * 1000 / playbackSpeed);
       const step = (now: number) => {
         const nextTime = (now - startTime) * playbackSpeed / 1000;
-        if (nextTime >= 44) {
-          setCurrentTime(44);
+        if (nextTime >= 50) {
+          setCurrentTime(50);
           setIsPlaying(false);
         } else {
           setCurrentTime(nextTime);
@@ -66,7 +68,7 @@ export default function App() {
                 className="flex flex-col items-center gap-4 w-56"
               >
                 <span className="text-sm font-semibold text-gray-600">{stage.label}</span>
-                <FloorPlan stage={stage.id} className="w-full border shadow-sm rounded-sm bg-white" />
+                <FloorPlan stage={stage.id as any} className="w-full border shadow-sm rounded-sm bg-white" />
                 <div className="h-12 flex flex-col items-center">
                   {stage.caption && (
                     <span className="text-[10px] text-gray-400 mt-2 uppercase tracking-tighter">
@@ -87,13 +89,15 @@ export default function App() {
         );
 
       case SceneType.Dataset:
-        const isRaster = currentTime > 10 && currentTime < 14;
-        const showAugment = currentTime > 14;
+        const showAugment = currentTime > 10;
         return (
           <div className="flex flex-col items-center justify-center h-full px-12">
             <div className="flex gap-12 items-center">
-              <motion.div animate={{ scale: showAugment ? 0.7 : 1 }}>
-                <FloorPlan stage={isRaster ? 'raster' : 'footprint'} className="w-48 border bg-white" />
+              <motion.div
+                animate={{ scale: showAugment ? 0.7 : 1 }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+              >
+                <FloorPlan stage={'footprint'} className="w-48 border bg-white" />
               </motion.div>
               {showAugment && (
                 <div className="grid grid-cols-3 gap-2">
@@ -102,9 +106,9 @@ export default function App() {
                       key={i}
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.05 }}
+                      transition={{ duration: 1.0, delay: i * 0.2 }}
                     >
-                      <FloorPlan stage="footprint" className="w-16 border bg-white" />
+                      <FloorPlan stage={'augmentation' as any} className="w-16 border bg-white" />
                     </motion.div>
                   ))}
                 </div>
@@ -122,7 +126,7 @@ export default function App() {
         );
 
       case SceneType.Step1:
-        const s1Progress = Math.min(1, (currentTime - 18) / 8.5);
+        const s1Progress = Math.min(1, (currentTime - 14) / 8.5);
         const epochs1 = [10, 30, 70, 170];
         const currentEpochIdx1 = Math.floor(s1Progress * 4);
         return (
@@ -147,7 +151,7 @@ export default function App() {
         );
 
       case SceneType.Step2:
-        const s2Progress = Math.min(1, (currentTime - 26.5) / 7.5);
+        const s2Progress = Math.min(1, (currentTime - 22.5) / 7.5);
         const epochs2 = [10, 70, 140, 210, 300];
         const currentEpochIdx2 = Math.floor(s2Progress * 5);
         return (
@@ -172,14 +176,14 @@ export default function App() {
         );
 
       case SceneType.Evaluation:
-        const ssim = Math.min(0.92, (currentTime - 34) / 8);
+        const ssim = Math.min(0.92, (currentTime - 30) / 8);
         return (
           <div className="flex flex-col items-center justify-center h-full px-24">
             <div className="flex gap-16 items-center">
               <div className="flex flex-col items-center gap-4">
                 <span className="text-xs font-bold text-gray-400">GENERATED</span>
                 <div className="relative">
-                  <FloorPlan stage="furnishing" className="w-48 border bg-white" />
+                  <FloorPlan stage={'generated_inaccurate' as any} className="w-48 border bg-white" />
                   <motion.div
                     className="absolute inset-0 bg-blue-500/10 pointer-events-none"
                     animate={{ opacity: [0, 0.3, 0] }}
@@ -188,14 +192,21 @@ export default function App() {
                 </div>
               </div>
               <div className="flex flex-col items-center gap-8">
-                <div className="w-32 h-32 rounded-full border-4 border-gray-100 flex items-center justify-center relative">
+                <div className="w-32 h-32 rounded-full flex items-center justify-center relative">
                   <span className="text-3xl font-bold font-mono">{ssim.toFixed(2)}</span>
-                  <svg className="absolute inset-0 -rotate-90">
+                  <svg className="absolute inset-0 w-full h-full -rotate-90">
+                    {/* Background Track */}
+                    <circle
+                      cx="64" cy="64" r="60"
+                      fill="none" stroke="#F3F4F6" strokeWidth="4"
+                    />
+                    {/* Progress Circle */}
                     <circle
                       cx="64" cy="64" r="60"
                       fill="none" stroke="#3B82F6" strokeWidth="4"
                       strokeDasharray="377"
                       strokeDashoffset={377 * (1 - ssim)}
+                      strokeLinecap="round"
                     />
                   </svg>
                   <span className="absolute -bottom-6 text-[10px] font-bold text-gray-500">SSIM INDEX</span>
@@ -210,6 +221,58 @@ export default function App() {
               <h2 className="text-xl font-medium">Objective Evaluation</h2>
               <p className="text-gray-500 text-sm mt-1">High structural similarity (SSIM) indicates preservation of architectural constraints.</p>
             </motion.div>
+          </div>
+        );
+
+      case SceneType.ValidationStep1:
+        return (
+          <div className="flex flex-col items-center justify-center h-full">
+            <h2 className="text-xl font-medium mb-12">Validation: Step 1</h2>
+            <div className="flex items-center gap-12">
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-[10px] text-gray-400">VAL INPUT</span>
+                <FloorPlan stage="val_footprint" className="w-48 border bg-white" />
+              </div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex flex-col items-center"
+              >
+                <div className="w-12 h-[2px] bg-blue-500" />
+                <span className="text-[8px] mt-1 text-blue-500 uppercase tracking-widest">Generative</span>
+              </motion.div>
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-[10px] text-blue-500 font-bold">PREDICTION</span>
+                <FloorPlan stage="val_zoning" className="w-48 border bg-white" />
+              </div>
+            </div>
+            <p className="text-gray-500 text-sm mt-12">Generating Zoning layout from Footprint.</p>
+          </div>
+        );
+
+      case SceneType.ValidationStep2:
+        return (
+          <div className="flex flex-col items-center justify-center h-full">
+            <h2 className="text-xl font-medium mb-12">Validation: Step 2</h2>
+            <div className="flex items-center gap-12">
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-[10px] text-gray-400">VAL INPUT</span>
+                <FloorPlan stage="val_zoning" className="w-48 border bg-white" />
+              </div>
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex flex-col items-center"
+              >
+                <div className="w-12 h-[2px] bg-blue-500" />
+                <span className="text-[8px] mt-1 text-blue-500 uppercase tracking-widest">Refinement</span>
+              </motion.div>
+              <div className="flex flex-col items-center gap-2">
+                <span className="text-[10px] text-blue-500 font-bold">PREDICTION</span>
+                <FloorPlan stage="val_furnishing" className="w-48 border bg-white" />
+              </div>
+            </div>
+            <p className="text-gray-500 text-sm mt-12">Populating Furniture and details.</p>
           </div>
         );
 
@@ -267,6 +330,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: (currentScene === SceneType.Step1 || currentScene === SceneType.Step2) ? 1.0 : 0.5 }}
             className="w-full h-full"
           >
             {renderScene()}
@@ -305,11 +369,11 @@ export default function App() {
           <div className="flex flex-col gap-1">
             <div className="flex justify-between text-[10px] font-bold text-gray-400">
               <span>{Math.floor(currentTime)}s</span>
-              <span>44.0s</span>
+              <span>50.0s</span>
             </div>
             <input
               type="range"
-              min="0" max="44" step="0.1"
+              min="0" max="50" step="0.1"
               value={currentTime}
               onChange={(e) => setCurrentTime(parseFloat(e.target.value))}
               className="w-full accent-blue-500"

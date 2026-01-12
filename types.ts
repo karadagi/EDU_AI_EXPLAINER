@@ -5,6 +5,8 @@ export enum SceneType {
   Step1 = 'step1',
   Step2 = 'step2',
   Evaluation = 'evaluation',
+  ValidationStep1 = 'validationStep1',
+  ValidationStep2 = 'validationStep2',
   Summary = 'summary'
 }
 
