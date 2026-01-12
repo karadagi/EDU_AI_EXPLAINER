@@ -249,7 +249,10 @@ export default function App() {
           <p className="text-sm text-gray-500">Pix2Pix Two-Step Layout Generation Pipeline</p>
         </div>
         <div className="flex items-center gap-4">
-          <button className="p-2 text-gray-400 hover:text-black transition">
+          <button
+            onClick={() => window.open('https://www.emerald.com/ci/article/23/4/898/48506/EDU-AI-a-twofold-machine-learning-model-to-support', '_blank')}
+            className="p-2 text-gray-400 hover:text-black transition"
+          >
             <Info className="w-5 h-5" />
           </button>
         </div>
