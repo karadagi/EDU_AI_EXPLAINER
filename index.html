@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +12,9 @@
             font-family: 'Inter', sans-serif;
             background-color: #ffffff;
             color: #1a1a1a;
-            overflow-x: hidden;
+            overflow: hidden;
         }
+
         .canvas-container {
             aspect-ratio: 16/9;
             width: 100%;
@@ -21,12 +22,12 @@
             margin: 0 auto;
             position: relative;
             background: white;
-            box-shadow: 0 10px 30px -5px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             overflow: hidden;
         }
     </style>
-<script type="importmap">
+    <script type="importmap">
 {
   "imports": {
     "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
@@ -38,10 +39,12 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/index.css">
 </head>
+
 <body>
     <div id="root"></div>
-<script type="module" src="/index.tsx"></script>
+    <script type="module" src="/index.tsx"></script>
 </body>
+
 </html>
