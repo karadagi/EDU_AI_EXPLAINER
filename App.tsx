@@ -16,9 +16,9 @@ export default function App() {
   const currentScene: SceneType =
     currentTime < 8 ? SceneType.Framing :
       currentTime < 18 ? SceneType.Dataset :
-        currentTime < 35 ? SceneType.Step1 :
-          currentTime < 50 ? SceneType.Step2 :
-            currentTime < 58 ? SceneType.Evaluation :
+        currentTime < 26.5 ? SceneType.Step1 :
+          currentTime < 34 ? SceneType.Step2 :
+            currentTime < 42 ? SceneType.Evaluation :
               SceneType.Summary;
 
   useEffect(() => {
@@ -26,8 +26,8 @@ export default function App() {
       const startTime = performance.now() - (currentTime * 1000);
       const step = (now: number) => {
         const nextTime = (now - startTime) / 1000;
-        if (nextTime >= 60) {
-          setCurrentTime(60);
+        if (nextTime >= 44) {
+          setCurrentTime(44);
           setIsPlaying(false);
         } else {
           setCurrentTime(nextTime);
@@ -121,7 +121,7 @@ export default function App() {
         );
 
       case SceneType.Step1:
-        const s1Progress = Math.min(1, (currentTime - 18) / 15);
+        const s1Progress = Math.min(1, (currentTime - 18) / 8.5);
         const epochs1 = [10, 30, 70, 170];
         const currentEpochIdx1 = Math.floor(s1Progress * 4);
         return (
@@ -146,7 +146,7 @@ export default function App() {
         );
 
       case SceneType.Step2:
-        const s2Progress = Math.min(1, (currentTime - 35) / 15);
+        const s2Progress = Math.min(1, (currentTime - 26.5) / 7.5);
         const epochs2 = [10, 70, 140, 210, 300];
         const currentEpochIdx2 = Math.floor(s2Progress * 5);
         return (
@@ -171,7 +171,7 @@ export default function App() {
         );
 
       case SceneType.Evaluation:
-        const ssim = Math.min(0.92, (currentTime - 50) / 8);
+        const ssim = Math.min(0.92, (currentTime - 34) / 8);
         return (
           <div className="flex flex-col items-center justify-center h-full px-24">
             <div className="flex gap-16 items-center">
@@ -304,11 +304,11 @@ export default function App() {
           <div className="flex flex-col gap-1">
             <div className="flex justify-between text-[10px] font-bold text-gray-400">
               <span>{Math.floor(currentTime)}s</span>
-              <span>60.0s</span>
+              <span>44.0s</span>
             </div>
             <input
               type="range"
-              min="0" max="60" step="0.1"
+              min="0" max="44" step="0.1"
               value={currentTime}
               onChange={(e) => setCurrentTime(parseFloat(e.target.value))}
               className="w-full accent-blue-500"
