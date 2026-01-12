@@ -23,9 +23,10 @@ export default function App() {
 
   useEffect(() => {
     if (isPlaying) {
-      const startTime = performance.now() - (currentTime * 1000);
+      const playbackSpeed = 2.0;
+      const startTime = performance.now() - (currentTime * 1000 / playbackSpeed);
       const step = (now: number) => {
-        const nextTime = (now - startTime) / 1000;
+        const nextTime = (now - startTime) * playbackSpeed / 1000;
         if (nextTime >= 44) {
           setCurrentTime(44);
           setIsPlaying(false);
@@ -101,7 +102,7 @@ export default function App() {
                       key={i}
                       initial={{ opacity: 0, scale: 0.5 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: i * 0.1 }}
+                      transition={{ delay: i * 0.05 }}
                     >
                       <FloorPlan stage="footprint" className="w-16 border bg-white" />
                     </motion.div>
@@ -182,7 +183,7 @@ export default function App() {
                   <motion.div
                     className="absolute inset-0 bg-blue-500/10 pointer-events-none"
                     animate={{ opacity: [0, 0.3, 0] }}
-                    transition={{ duration: 2, repeat: Infinity }}
+                    transition={{ duration: 1, repeat: Infinity }}
                   />
                 </div>
               </div>

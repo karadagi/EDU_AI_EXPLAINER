@@ -26,7 +26,7 @@ export const Pix2PixDiagram: React.FC<DiagramProps> = ({ inputLabel, outputLabel
           <motion.div
             className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-blue-500 rounded-full blur-sm"
             animate={{ left: ['0%', '100%'] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 0.75, repeat: Infinity, ease: "linear" }}
           />
         </div>
 
@@ -39,17 +39,17 @@ export const Pix2PixDiagram: React.FC<DiagramProps> = ({ inputLabel, outputLabel
           </div>
           {/* Discriminator Overlay */}
           <motion.div
-             className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-16 bg-white border border-red-200 rounded-lg flex flex-col items-center justify-center shadow-sm"
-             animate={{ y: [0, -5, 0] }}
-             transition={{ duration: 3, repeat: Infinity }}
+            className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-16 bg-white border border-red-200 rounded-lg flex flex-col items-center justify-center shadow-sm"
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
           >
             <span className="text-[8px] font-bold text-red-400">DISCRIMINATOR</span>
             <div className="w-16 h-1 bg-gray-100 mt-1 rounded-full overflow-hidden">
-               <motion.div
-                 className="h-full bg-red-400"
-                 animate={{ width: [`${progress * 100}%`, `${(progress + 0.1) * 90}%`] }}
-                 transition={{ duration: 0.5, repeat: Infinity, repeatType: "reverse" }}
-               />
+              <motion.div
+                className="h-full bg-red-400"
+                animate={{ width: [`${progress * 100}%`, `${(progress + 0.1) * 90}%`] }}
+                transition={{ duration: 0.25, repeat: Infinity, repeatType: "reverse" }}
+              />
             </div>
             <span className="text-[8px] text-gray-400 mt-1">Real / Fake</span>
           </motion.div>
@@ -59,7 +59,7 @@ export const Pix2PixDiagram: React.FC<DiagramProps> = ({ inputLabel, outputLabel
           <motion.div
             className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-blue-500 rounded-full blur-sm"
             animate={{ left: ['0%', '100%'] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 0.75, repeat: Infinity, ease: "linear" }}
           />
         </div>
 
