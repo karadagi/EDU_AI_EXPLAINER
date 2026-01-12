@@ -1,5 +1,0 @@
-{
-  "name": "EDU-AI Pix2Pix Explainer",
-  "description": "An interactive academic visualization of a two-fold Pix2Pix workflow for automated classroom layout generation, including real-time animation of footprint-to-furnishing transitions and professional video generation features.",
-  "requestFramePermissions": []
-}

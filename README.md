@@ -10,13 +10,25 @@ Implementing a generative framework for automated classroom layout synthesis thr
 
 **Live Model Interface:** [karadagi.github.io/EDU_AI_EXPLAINER](https://karadagi.github.io/EDU_AI_EXPLAINER/)
 
-## Technical Setup (Local)
+## Local Installation & Setup
 
-**Requirement:** Node.js
+Ensure you have [Node.js](https://nodejs.org/) installed on your system.
 
-1. **Install:** `npm install`
-2. **Environment:** Configure `GEMINI_API_KEY` in [.env.local](.env.local)
-3. **Execution:** `npm run dev`
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/karadagi/EDU_AI_EXPLAINER.git
+   cd EDU_AI_EXPLAINER
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
 ## Academic Reference
 
