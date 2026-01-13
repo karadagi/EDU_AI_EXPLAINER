@@ -243,72 +243,72 @@ export default function App() {
       case SceneType.ValidationStep1:
         return (
           <div className="flex flex-col items-center justify-center h-full">
-            <h2 className="text-lg md:text-xl font-medium mb-6 md:mb-12">Validation: Step 1</h2>
+            <h2 className="text-base md:text-xl font-medium mb-4 md:mb-12">Validation: Step 1</h2>
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-12">
               <div className="flex flex-col items-center gap-2">
                 <span className="text-[10px] text-gray-400">VAL INPUT</span>
-                <FloorPlan stage="val_footprint" className="w-32 md:w-48 border bg-white" />
+                <FloorPlan stage="val_footprint" className="w-24 md:w-48 border bg-white" />
               </div>
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="flex flex-col items-center transform rotate-90 md:rotate-0"
               >
-                <div className="w-12 h-[2px] bg-blue-500" />
+                <div className="w-8 md:w-12 h-[2px] bg-blue-500" />
                 <span className="text-[8px] mt-1 text-blue-500 uppercase tracking-widest">Generative</span>
               </motion.div>
               <div className="flex flex-col items-center gap-2">
                 <span className="text-[10px] text-blue-500 font-bold">PREDICTION</span>
-                <FloorPlan stage="val_zoning" className="w-32 md:w-48 border bg-white" />
+                <FloorPlan stage="val_zoning" className="w-24 md:w-48 border bg-white" />
               </div>
             </div>
-            <p className="text-gray-500 text-xs md:text-sm mt-6 md:mt-12">Generating Zoning layout from Footprint.</p>
+            <p className="text-gray-500 text-xs md:text-sm mt-4 md:mt-12">Generating Zoning layout from Footprint.</p>
           </div>
         );
 
       case SceneType.ValidationStep2:
         return (
           <div className="flex flex-col items-center justify-center h-full">
-            <h2 className="text-lg md:text-xl font-medium mb-6 md:mb-12">Validation: Step 2</h2>
+            <h2 className="text-base md:text-xl font-medium mb-4 md:mb-12">Validation: Step 2</h2>
             <div className="flex flex-col md:flex-row items-center gap-4 md:gap-12">
               <div className="flex flex-col items-center gap-2">
                 <span className="text-[10px] text-gray-400">VAL INPUT</span>
-                <FloorPlan stage="val_zoning" className="w-32 md:w-48 border bg-white" />
+                <FloorPlan stage="val_zoning" className="w-24 md:w-48 border bg-white" />
               </div>
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 className="flex flex-col items-center transform rotate-90 md:rotate-0"
               >
-                <div className="w-12 h-[2px] bg-blue-500" />
+                <div className="w-8 md:w-12 h-[2px] bg-blue-500" />
                 <span className="text-[8px] mt-1 text-blue-500 uppercase tracking-widest">Refinement</span>
               </motion.div>
               <div className="flex flex-col items-center gap-2">
                 <span className="text-[10px] text-blue-500 font-bold">PREDICTION</span>
-                <FloorPlan stage="val_furnishing" className="w-32 md:w-48 border bg-white" />
+                <FloorPlan stage="val_furnishing" className="w-24 md:w-48 border bg-white" />
               </div>
             </div>
-            <p className="text-gray-500 text-xs md:text-sm mt-6 md:mt-12">Populating Furniture and details.</p>
+            <p className="text-gray-500 text-xs md:text-sm mt-4 md:mt-12">Populating Furniture and details.</p>
           </div>
         );
 
       case SceneType.Summary:
         return (
           <div className="flex flex-col items-center justify-center h-full">
-            <div className="flex flex-wrap md:flex-nowrap justify-center items-center gap-4 md:gap-12">
-              <FloorPlan stage="footprint" className="w-24 md:w-32 border bg-white" />
+            <div className="flex flex-wrap md:flex-nowrap justify-center items-center gap-2 md:gap-12">
+              <FloorPlan stage="footprint" className="w-16 md:w-32 border bg-white" />
               <motion.div initial={{ width: 0 }} animate={{ width: 40 }} className="hidden md:block h-px bg-black" />
-              <FloorPlan stage="zoning" className="w-24 md:w-32 border bg-white" />
+              <FloorPlan stage="zoning" className="w-16 md:w-32 border bg-white" />
               <motion.div initial={{ width: 0 }} animate={{ width: 40 }} className="hidden md:block h-px bg-black" />
-              <FloorPlan stage="furnishing" className="w-24 md:w-32 border bg-white" />
+              <FloorPlan stage="furnishing" className="w-16 md:w-32 border bg-white" />
             </div>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mt-8 md:mt-16 text-center"
+              className="mt-4 md:mt-16 text-center"
             >
-              <h1 className="text-2xl md:text-3xl font-semibold tracking-tight">EDU-AI Workflow</h1>
-              <p className="text-sm md:text-lg text-gray-500 mt-2">Twofold Pix2Pix workflow for classroom layout generation.</p>
+              <h1 className="text-xl md:text-3xl font-semibold tracking-tight">EDU-AI Workflow</h1>
+              <p className="text-xs md:text-lg text-gray-500 mt-2">Twofold Pix2Pix workflow for classroom layout generation.</p>
             </motion.div>
           </div>
         );
