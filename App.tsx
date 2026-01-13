@@ -8,45 +8,58 @@ import { Pix2PixDiagram } from './components/Pix2PixDiagram';
 import { SceneType } from './types';
 
 export default function App() {
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState(53);
   const [isPlaying, setIsPlaying] = useState(false);
   const animationRef = useRef<number>();
 
-  // Derived states based on currentTime (0-60s)
+  // Derived states based on currentTime (0-53s)
   const currentScene: SceneType =
     currentTime < 8 ? SceneType.Framing :
-      currentTime < 14 ? SceneType.Dataset :
-        currentTime < 22.5 ? SceneType.Step1 :
-          currentTime < 30 ? SceneType.Step2 :
-            currentTime < 38 ? SceneType.Evaluation :
-              currentTime < 44 ? SceneType.ValidationStep1 :
-                currentTime < 50 ? SceneType.ValidationStep2 :
+      currentTime < 17 ? SceneType.Dataset : // +3s duration (was 14)
+        currentTime < 25.5 ? SceneType.Step1 : // +3s
+          currentTime < 33 ? SceneType.Step2 : // +3s
+            currentTime < 41 ? SceneType.Evaluation : // +3s
+              currentTime < 47 ? SceneType.ValidationStep1 : // +3s
+                currentTime < 53 ? SceneType.ValidationStep2 : // +3s
                   SceneType.Summary;
 
   useEffect(() => {
-    if (isPlaying) {
-      const playbackSpeed = 2.0;
-      const startTime = performance.now() - (currentTime * 1000 / playbackSpeed);
-      const step = (now: number) => {
-        const nextTime = (now - startTime) * playbackSpeed / 1000;
-        if (nextTime >= 50) {
-          setCurrentTime(50);
+    let animationFrameId: number;
+    let lastTime = performance.now();
+
+    const animate = (time: number) => {
+      if (!isPlaying) return;
+      const deltaTime = (time - lastTime) / 1000;
+      lastTime = time;
+
+      setCurrentTime((prevTime) => {
+        const newTime = prevTime + deltaTime * 2.0; // Playback speed 2.0
+        if (newTime >= 53) {
           setIsPlaying(false);
-        } else {
-          setCurrentTime(nextTime);
-          animationRef.current = requestAnimationFrame(step);
+          return 53;
         }
-      };
-      animationRef.current = requestAnimationFrame(step);
-    } else {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
-    }
-    return () => {
-      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+        return newTime;
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
     };
+
+    if (isPlaying) {
+      lastTime = performance.now();
+      animationFrameId = requestAnimationFrame(animate);
+    }
+
+    return () => cancelAnimationFrame(animationFrameId);
   }, [isPlaying]);
 
-  const togglePlay = () => setIsPlaying(!isPlaying);
+  const togglePlay = () => {
+    if (currentTime >= 53) {
+      setCurrentTime(0);
+      setIsPlaying(true);
+    } else {
+      setIsPlaying(!isPlaying);
+    }
+  };
   const reset = () => {
     setIsPlaying(false);
     setCurrentTime(0);
@@ -340,7 +353,7 @@ export default function App() {
         {/* Scene Labels Overlay */}
         <div className="absolute top-6 left-6 flex flex-col gap-1">
           <span className="text-[10px] font-bold text-blue-500 uppercase tracking-widest">
-            SCENE {Object.values(SceneType).indexOf(currentScene) + 1} / 6
+            SCENE {Object.values(SceneType).indexOf(currentScene) + 1} / 8
           </span>
           <span className="text-sm font-medium text-gray-900 capitalize">
             {currentScene.replace(/([A-Z])/g, ' $1').trim()}
@@ -369,11 +382,11 @@ export default function App() {
           <div className="flex flex-col gap-1">
             <div className="flex justify-between text-[10px] font-bold text-gray-400">
               <span>{Math.floor(currentTime)}s</span>
-              <span>50.0s</span>
+              <span>53.0s</span>
             </div>
             <input
               type="range"
-              min="0" max="50" step="0.1"
+              min="0" max="53" step="0.1"
               value={currentTime}
               onChange={(e) => setCurrentTime(parseFloat(e.target.value))}
               className="w-full accent-blue-500"
