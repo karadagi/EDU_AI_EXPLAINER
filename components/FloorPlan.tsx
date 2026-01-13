@@ -31,7 +31,7 @@ export const FloorPlan: React.FC<FloorPlanProps> = ({ stage, progress = 1, class
           style={{
             left: config.crop === 'left' ? '0%' : config.crop === 'right' ? '-100%' : '0%',
             width: config.crop === 'full' ? '100%' : '200%',
-            objectFit: 'contain',
+            objectFit: 'cover',
             filter: stage === 'raster' ? 'blur(2px) contrast(150%) brightness(90%)' : 'none'
           }}
         />

@@ -78,7 +78,7 @@ export default function App() {
                 key={stage.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: idx < visibleCount ? 1 : 0, y: idx < visibleCount ? 0 : 20 }}
-                className="flex flex-col items-center gap-2 md:gap-4 w-40 md:w-56"
+                className="flex flex-col items-center gap-2 md:gap-4 w-32 md:w-56"
               >
                 <span className="text-sm font-semibold text-gray-600">{stage.label}</span>
                 <FloorPlan stage={stage.id as any} className="w-full border shadow-sm rounded-sm bg-white" />
