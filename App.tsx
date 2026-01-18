@@ -156,15 +156,14 @@ export default function App() {
         );
 
       case SceneType.Framing:
-        const t3 = currentTime - 16;
-        const visibleCount = t3 < 3 ? 1 : t3 < 6 ? 2 : 3;
         return (
           <div className="flex flex-row justify-center items-end gap-2 md:gap-12 h-full py-4 md:py-12">
             {STAGES.map((stage, idx) => (
               <motion.div
                 key={stage.id}
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: idx < visibleCount ? 1 : 0, y: idx < visibleCount ? 0 : 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 1.5, duration: 0.5 }}
                 className="flex flex-col items-center gap-2 md:gap-4 w-24 md:w-56"
               >
                 <span className="text-[10px] md:text-sm font-semibold text-gray-600">{stage.label}</span>
@@ -175,10 +174,11 @@ export default function App() {
                       {stage.caption}
                     </span>
                   )}
-                  {idx < 2 && idx < visibleCount - 1 && (
+                  {idx < 2 && (
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: window.innerWidth >= 768 ? 40 : 10 }}
+                      transition={{ delay: idx * 1.5 + 0.8, duration: 0.5 }}
                       className="h-px bg-gray-300 absolute mt-4 -right-4 md:-right-20"
                     />
                   )}
