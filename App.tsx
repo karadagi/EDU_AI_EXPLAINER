@@ -156,7 +156,8 @@ export default function App() {
         );
 
       case SceneType.Framing:
-        const visibleCount = currentTime < 3 ? 1 : currentTime < 6 ? 2 : 3;
+        const t3 = currentTime - 16;
+        const visibleCount = t3 < 3 ? 1 : t3 < 6 ? 2 : 3;
         return (
           <div className="flex flex-row justify-center items-end gap-2 md:gap-12 h-full py-4 md:py-12">
             {STAGES.map((stage, idx) => (
