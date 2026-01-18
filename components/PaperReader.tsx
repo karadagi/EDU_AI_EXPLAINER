@@ -7,7 +7,7 @@ interface PaperReaderProps {
 }
 
 export const PaperReader: React.FC<PaperReaderProps> = ({
-    pdfUrl = "/paper.pdf"
+    pdfUrl = "paper.pdf"
 }) => {
     return (
         <motion.div
