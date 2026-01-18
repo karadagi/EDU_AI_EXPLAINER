@@ -1,7 +1,10 @@
 
 export enum SceneType {
+  Architecture = 'architecture',
+  RawMaterial = 'rawMaterial',
   Framing = 'framing',
   Dataset = 'dataset',
+  GANArchitecture = 'ganArchitecture',
   Step1 = 'step1',
   Step2 = 'step2',
   Evaluation = 'evaluation',
